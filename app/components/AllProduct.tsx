@@ -8,16 +8,16 @@ export interface Product {
   description: string;
   price: number;
   imageUrl: string;
-  createdAt: string;
+  createdAt: Date;
   user: {
-    name?: string;
-    imageUrl?: string;
+    name?: string | null;
+    imageUrl?: string | null;
     _count: { products: number };
   };
 }
 
 export default async function AllProduct() {
-  const product = await GetAllProduct();
+  const product: Product[] = await GetAllProduct();
 
   return (
     <div className="w-screen h-md  flex flex-col justify-center items-center gap-5 p-3">
