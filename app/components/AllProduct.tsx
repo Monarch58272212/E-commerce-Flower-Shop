@@ -2,6 +2,19 @@ import Image from 'next/image';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import GetAllProduct from '../actions/get.action';
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  createdAt: string;
+  user: {
+    name?: string;
+    imageUrl?: string;
+    _count: { products: number };
+  };
+}
 
 export default async function AllProduct() {
   const product = await GetAllProduct();
