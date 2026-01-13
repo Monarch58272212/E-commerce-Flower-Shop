@@ -9,6 +9,19 @@ import { redirect } from 'next/navigation';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import DeleteButton from './DeleteButton';
 
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  createdAt: Date;
+  user: {
+    name?: string | null;
+    imageUrl?: string | null;
+  };
+}
+
 export default async function Dashboard() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
@@ -19,7 +32,7 @@ export default async function Dashboard() {
 
   const db = await getDbUser();
 
-  const product = await prisma.product.findMany({
+  const product: Product[] = await prisma.product.findMany({
     where: { userId: db?.id },
     include: {
       user: true,
