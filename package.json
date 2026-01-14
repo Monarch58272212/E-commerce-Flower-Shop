@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "format": "prettier --write .",
-    "postinstall": "prisma generate" 
+    "format": "prettier --write ."
+
   },
   "dependencies": {
     "@kinde-oss/kinde-auth-nextjs": "^2.11.0",
