@@ -1,7 +1,7 @@
 import CreatePost from '../components/CreatePost';
 import { Suspense } from 'react';
-import Dashboard from '../components/Dashboard';
 import { SkeletonCard } from '../components/Skeleton';
+import Dashboard from '../components/Dashboard';
 
 export default function AddProductForm() {
   return (

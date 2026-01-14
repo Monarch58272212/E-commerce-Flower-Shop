@@ -1,50 +1,16 @@
 import Image from 'next/image';
-
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getDbUser } from '../actions/user.action';
-
-import { redirect } from 'next/navigation';
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import DeleteButton from './DeleteButton';
-import prisma from '../lib/prisma';
-
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  createdAt: Date;
-  user: {
-    name?: string | null;
-    imageUrl?: string | null;
-  };
-}
+import GetUserProduct from '../actions/get.action';
 
 export default async function Dashboard() {
-  const { getUser } = getKindeServerSession();
-  const user = await getUser();
-
-  if (!user) {
-    redirect('/api/auth/login');
-  }
-
-  const db = await getDbUser();
-
-  const product: Product[] = await prisma.product.findMany({
-    where: { userId: db?.id },
-    orderBy: {
-      createdAt: 'desc',
-    },
-    include: {
-      user: true,
-    },
-  });
+  const product = await GetUserProduct();
 
   return (
     <div className="w-screen h-md  flex flex-col justify-center items-center gap-5 p-3">
+      hello
       <div className="grid w-full md:grid-cols-2 lg:grid-cols-3 ">
         {product.map((prod) => (
           <div

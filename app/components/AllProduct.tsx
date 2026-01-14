@@ -1,23 +1,10 @@
 import Image from 'next/image';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import GetAllProduct from '../actions/get.action';
-export interface Product {
-  id: string;
-  name: string;
-  description: string;
-  price: number;
-  imageUrl: string;
-  createdAt: Date;
-  user: {
-    name?: string | null;
-    imageUrl?: string | null;
-    _count: { products: number };
-  };
-}
+import { GetAllProduct } from '../actions/get.action';
 
 export default async function AllProduct() {
-  const product: Product[] = await GetAllProduct();
+  const product = await GetAllProduct();
 
   return (
     <div className="w-screen h-md  flex flex-col justify-center items-center gap-5 p-3">

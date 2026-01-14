@@ -1,9 +1,23 @@
 'use server';
 
 import prisma from '../lib/prisma';
+import { getDbUser } from './user.action';
 
-export default async function GetAllProduct() {
-  const product = await prisma.product.findMany({
+export interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  createdAt: Date;
+  user: {
+    name?: string | null;
+    imageUrl?: string | null;
+  };
+}
+
+export async function GetAllProduct() {
+  const allProduct = await prisma.product.findMany({
     orderBy: {
       createdAt: 'desc',
     },
@@ -17,6 +31,22 @@ export default async function GetAllProduct() {
           },
         },
       },
+    },
+  });
+
+  return allProduct;
+}
+
+export default async function GetUserProduct() {
+  const user = await getDbUser();
+
+  const product = await prisma.product.findMany({
+    where: { userId: user?.id },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    include: {
+      user: true,
     },
   });
 
