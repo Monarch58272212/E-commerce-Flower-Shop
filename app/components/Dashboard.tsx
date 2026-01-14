@@ -35,6 +35,9 @@ export default async function Dashboard() {
 
   const product: Product[] = await prisma.product.findMany({
     where: { userId: db?.id },
+    orderBy: {
+      createdAt: 'desc',
+    },
     include: {
       user: true,
     },

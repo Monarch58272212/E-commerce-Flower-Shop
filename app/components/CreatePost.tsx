@@ -13,12 +13,12 @@ export default function CreatePost() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !description.trim() || !price.trim()) {
+    if (!name.trim() || !description.trim() || !price.trim() || !imageUrl) {
       return toast.error('Please put valid data');
     }
     setLoading(true);
@@ -34,9 +34,11 @@ export default function CreatePost() {
       if (result?.success) {
         setName('');
         setDescription('');
-        setImageUrl('');
+        setImageUrl(null);
         setPrice('');
         toast.success('Created Successfully');
+      } else {
+        toast.error('Failed to create product');
       }
     } catch (error) {
       console.error(error);
@@ -72,9 +74,9 @@ export default function CreatePost() {
           required
         />
         <Input
-          placeholder="Image URL"
-          value={imageUrl}
-          onChange={(e) => setImageUrl(e.target.value)}
+          type="file"
+          accept="image/*"
+          onChange={(e) => setImageUrl(e.target.files?.[0] || null)}
           required
         />
 

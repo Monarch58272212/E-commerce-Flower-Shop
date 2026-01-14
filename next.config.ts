@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  
+  experimental: {
+    serverActions: {
+      bodySizeLimit: '10mb', // default is 1MB
+    },
+  },
   images: {
     remotePatterns: [
       {
@@ -22,6 +26,13 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+         {
+        protocol: 'https',
+        hostname: "res.cloudinary.com",
+        port: '',
+        pathname: '/**',
+      },
+     
 
     ],
   },
