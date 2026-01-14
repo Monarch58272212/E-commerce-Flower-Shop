@@ -1,5 +1,6 @@
 'use server';
-import prisma from '../lib/db/prisma';
+
+import prisma from '../lib/prisma';
 import { getDbUser } from './user.action';
 import { revalidatePath } from 'next/cache';
 

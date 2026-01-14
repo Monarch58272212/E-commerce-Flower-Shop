@@ -2,7 +2,8 @@ import { getDbUser } from '@/app/actions/user.action';
 import { SingleSkeleton } from '@/app/components/Skeleton';
 
 import UpdateButton from '@/app/components/UpdateButton';
-import prisma from '@/app/lib/db/prisma';
+import prisma from '@/app/lib/prisma';
+
 import { Button } from '@/components/ui/button';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import Image from 'next/image';

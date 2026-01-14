@@ -1,7 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import prisma from '../lib/db/prisma';
+import prisma from '../lib/prisma';
 
 interface AddProductParams {
   name: string;

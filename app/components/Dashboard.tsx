@@ -4,10 +4,11 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getDbUser } from '../actions/user.action';
-import prisma from '../lib/db/prisma';
+
 import { redirect } from 'next/navigation';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import DeleteButton from './DeleteButton';
+import prisma from '../lib/prisma';
 
 export interface Product {
   id: string;

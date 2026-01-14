@@ -1,6 +1,6 @@
 'use server';
 
-import prisma from '../lib/db/prisma';
+import prisma from '../lib/prisma';
 
 export default async function DeletePost(id: string) {
   try {
