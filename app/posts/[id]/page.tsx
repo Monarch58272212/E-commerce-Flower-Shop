@@ -1,5 +1,5 @@
 import { getDbUser } from '@/app/actions/user.action';
-import { SingleSkeleton } from '@/app/components/Skeleton';
+import { SingleSkeleton } from '@/app/components/skeletons/Skeleton';
 
 import UpdateButton from '@/app/components/UpdateButton';
 import prisma from '@/app/lib/prisma';

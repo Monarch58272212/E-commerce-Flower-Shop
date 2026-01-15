@@ -62,7 +62,7 @@ export default async function createPost({
       },
     });
     revalidatePath('/Create');
-    return { success: true, product: newProduct };
+    return { success: true, data: newProduct };
   } catch (error) {
     console.log('Error adding product:', error);
     return {

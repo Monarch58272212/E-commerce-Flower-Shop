@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import DeleteButton from './DeleteButton';
+import DeleteButton from './deleteButton/DeleteButton';
 import GetUserProduct from '../actions/get.action';
 
 export default async function Dashboard() {

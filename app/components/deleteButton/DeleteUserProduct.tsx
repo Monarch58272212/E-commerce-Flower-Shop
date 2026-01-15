@@ -1,15 +1,10 @@
 'use client';
-
 import { Button } from '@/components/ui/button';
-import DeletePost from '../actions/deletePost.action';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import { DeleteUserProductPost } from '../../actions/deletePost.action';
 
-interface ProductId {
-  id: string;
-}
-
-export default function DeleteButton({ id }: ProductId) {
+export default function DeleteUserProduct({ id }: { id: string }) {
   const [loading, setLoading] = useState(false);
   const handleDeleteProduct = async () => {
     setLoading(true);
@@ -17,7 +12,7 @@ export default function DeleteButton({ id }: ProductId) {
       const confirm = window.confirm('sure?');
       if (!confirm) return;
 
-      await DeletePost(id);
+      await DeleteUserProductPost(id);
       location.reload();
       toast.success('Deleted Successfully');
     } catch (error) {

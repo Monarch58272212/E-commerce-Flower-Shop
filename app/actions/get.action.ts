@@ -31,6 +31,9 @@ export async function GetAllProduct() {
           },
         },
       },
+      comment: {
+        include: { user: true },
+      },
     },
   });
 
