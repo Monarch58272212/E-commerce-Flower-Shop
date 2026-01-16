@@ -65,3 +65,13 @@ export async function getDbUser() {
   if (!user) throw new Error('User not found in database');
   return user;
 }
+
+export async function getDbUserPublic() {
+  const { getUser } = getKindeServerSession();
+  const kindeUser = await getUser();
+  if (!kindeUser?.id) return null;
+
+  const user = await getUserByKindeId(kindeUser.id);
+  if (!user) throw new Error('User not found in database');
+  return user;
+}

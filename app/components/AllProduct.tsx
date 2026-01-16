@@ -8,12 +8,11 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import CommentForm from './CommentForm';
 import { GetAllProduct } from '../actions/get.action';
-import { GetAllComment } from '../actions/comments/getComment.action';
+import ReplyButton from './replyButton/ReplyButton';
 
 export default async function AllProduct() {
   const product = await GetAllProduct();
   const dbUser = await getDbUser();
-  const getComments = await GetAllComment();
 
   return (
     <div className="w-screen h-md  flex flex-col justify-center items-center gap-5 p-3">
@@ -22,7 +21,7 @@ export default async function AllProduct() {
         {product.map((prod) => (
           <div
             key={prod.id}
-            className="border flex flex-col gap-3  border-gray-300 rounded-lg p-4 m-2 shadow-md"
+            className="border flex flex-col gap-3 max-w-lg border-gray-300 rounded-lg p-4 m-2 shadow-md"
           >
             <div className="relative w-full h-50">
               <Image
@@ -56,27 +55,60 @@ export default async function AllProduct() {
                 <DeleteUserProduct id={prod.id} />
               </div>
             )}
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-start">
+              <Avatar className="h-6 w-6">
+                <AvatarImage src={dbUser.imageUrl || ''} />
+                <AvatarFallback>{dbUser.name?.charAt(0)}</AvatarFallback>
+              </Avatar>
               <CommentForm productId={prod.id} userId={dbUser.id} />
             </div>
 
             <>
-              {getComments
-                .filter((c) => c.productId === prod.id)
-                .map((comment) => (
-                  <div key={comment.id} className="flex gap-3 items-center">
-                    <Avatar>
-                      <AvatarImage src={comment.user?.imageUrl || ''} />
-                      <AvatarFallback>
-                        {comment.user?.name?.charAt(0)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="text-gray-700">{comment.user?.name}</p>
-                      <p className="text-gray-900">{comment.message}</p>
+              {prod.comment.map((c) => (
+                <div
+                  key={c.id}
+                  className="flex gap-3 flex-col justify-start items-start"
+                >
+                  <div className="w-full">
+                    <div className="flex gap-3  items-center">
+                      <Avatar>
+                        <AvatarImage src={c.user.imageUrl || ''} />
+                        <AvatarFallback>
+                          {c.user?.name?.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <p className="text-gray-700 text-xs">{c.user?.name}</p>
+                    </div>
+                    <div className="flex justify-between w-full items-center">
+                      <p className="text-gray-900">{c.message}</p>
+                      <ReplyButton userId={c.userId} commentId={c.id} />
                     </div>
                   </div>
-                ))}
+
+                  <div>
+                    <>
+                      {c.reply.map((r) => (
+                        <div
+                          key={r.id}
+                          className="flex gap-3 pl-15 items-center"
+                        >
+                          <Avatar className="h-4 w-4">
+                            <AvatarImage src={r.user.imageUrl || ''} />
+                            <AvatarFallback>
+                              {r.user?.name?.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
+                          <p className="text-gray-700 text-xs">
+                            {r.user?.name}
+                          </p>
+                          <p className="text-gray-900">{r.message}</p>
+                          <ReplyButton userId={c.userId} commentId={c.id} />
+                        </div>
+                      ))}
+                    </>
+                  </div>
+                </div>
+              ))}
             </>
           </div>
         ))}

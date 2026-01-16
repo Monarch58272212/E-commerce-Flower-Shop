@@ -22,6 +22,7 @@ model User {
   updatedAt DateTime  @updatedAt
   comment   Comment[]
   products  Product[]
+  replies   Reply[]
 }
 
 model Product {
@@ -51,4 +52,17 @@ model Comment {
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  reply Reply[]
+}
+
+model Reply {
+  id      String @id @default(cuid())
+  message String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  commentId String
+  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
 }
