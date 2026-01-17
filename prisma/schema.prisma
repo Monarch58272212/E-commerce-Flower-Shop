@@ -63,6 +63,10 @@ model Reply {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  commentId String
-  comment   Comment @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  commentId String?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  parentId String?
+  parent   Reply?  @relation("ReplyToReply", fields: [parentId], references: [id], onDelete: Cascade)
+  children Reply[] @relation("ReplyToReply")
 }

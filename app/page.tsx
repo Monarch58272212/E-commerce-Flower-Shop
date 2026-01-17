@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
-import AllProduct from './components/AllProduct';
+
 import { SkeletonCard } from './components/skeletons/Skeleton';
+import AllProduct from './components/Test';
 
 export default async function Home() {
   return (

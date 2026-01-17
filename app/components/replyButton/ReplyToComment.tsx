@@ -1,6 +1,6 @@
 'use client';
 
-import { createReplyToFirstComment } from '@/app/actions/reply/createReply.action';
+import { createReplyToReply } from '@/app/actions/reply/createReply.action';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,14 +11,16 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Textarea } from '@/components/ui/textarea';
+
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 interface IdReply {
   commentId: string;
+  parentId?: string;
 }
 
-export default function ReplyButton({ commentId }: IdReply) {
+export default function ReplyToComment({ commentId, parentId }: IdReply) {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
@@ -29,8 +31,9 @@ export default function ReplyButton({ commentId }: IdReply) {
     if (!message.trim()) return toast.error('paki butangan tanan boyyy');
 
     try {
-      const replyInComment = await createReplyToFirstComment({
+      const replyInComment = await createReplyToReply({
         message,
+        parentId,
         commentId,
       });
       if (replyInComment.success) {
