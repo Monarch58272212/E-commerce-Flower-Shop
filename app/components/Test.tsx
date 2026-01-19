@@ -1,15 +1,15 @@
 import Image from 'next/image';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-
 import DeleteUserProduct from './deleteButton/DeleteUserProduct';
 import { getDbUser } from '../actions/user.action';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import CommentForm from './CommentForm';
-import { GetAllProduct } from '../actions/get.action';
-import ReplyButton from './replyButton/ReplyButton';
-import ReplyToComment from './replyButton/ReplyToComment';
+import { GetAllProduct } from '../actions/getAllProducts.action';
+import ReplyButton from './replyButton/ReplyToFirstComment';
+import ReplyToReply from './replyButton/ReplyToReply';
+import DeleteComment from './deleteButton/DeleteComment';
 
 export default async function AllProduct() {
   const product = await GetAllProduct();
@@ -64,81 +64,96 @@ export default async function AllProduct() {
               <CommentForm productId={prod.id} userId={dbUser.id} />
             </div>
 
-            {/*Comments */}
+            {/* first Comment */}
             <>
-              {prod.comment.map((c) => (
+              {prod.comment.map((firstComment) => (
                 <div
-                  key={c.id}
-                  className="flex gap-3 flex-col justify-start items-start"
+                  key={firstComment.id}
+                  className="flex flex-col ml-3 gap-3 justify-start items-start"
                 >
-                  <div className="w-full">
-                    <div className="flex gap-3  items-center">
-                      <Avatar>
-                        <AvatarImage src={c.user.imageUrl || ''} />
+                  <div className="flex  gap-3 justify-start items-center">
+                    <div className="flex  gap-1 justify-start items-center">
+                      <Avatar className="h-6 w-6">
+                        <AvatarImage src={firstComment.user.imageUrl || ''} />
                         <AvatarFallback>
-                          {c.user?.name?.charAt(0)}
+                          {firstComment.user.name?.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
-                      <p className="text-gray-700 text-xs">{c.user?.name}</p>
+                      <p className="text-gray-600 text-xs">
+                        {firstComment.user.name?.toLowerCase()}
+                      </p>
                     </div>
-                    <div className="flex justify-between w-full items-center">
-                      <p className="text-gray-900">{c.message}</p>
-                      <ReplyButton commentId={c.id} />
-                    </div>
+                    <p className="text-green-800 text-xs">
+                      first Comment: {firstComment.message}
+                    </p>
+                    <ReplyButton commentId={firstComment.id} />{' '}
+                    <DeleteComment commentId={firstComment.id} />
                   </div>
 
-                  <div>
-                    <>
-                      {c.reply.map((r) => (
+                  {/* 2nd Comment */}
+                  {firstComment.reply.map((SecondComment) => (
+                    <div
+                      key={SecondComment.id}
+                      className="flex ml-5 gap-3 flex-col justify-start items-start"
+                    >
+                      <div className="flex  gap-1 justify-start items-center">
+                        <Avatar className="h-5 w-5">
+                          <AvatarImage
+                            src={SecondComment.user.imageUrl || ''}
+                          />
+                          <AvatarFallback>
+                            {SecondComment.user.name?.charAt(0)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <p className="text-gray-600 text-xs">
+                          {SecondComment.user.name?.toLowerCase()}
+                        </p>
+                      </div>
+                      <p className="text-gray-600 text-xs">
+                        {SecondComment.user.name?.toLowerCase()}
+                        <span> &gt; </span>
+                        {firstComment.user.name?.toLowerCase()}
+                      </p>
+                      <div className="flex gap-2 items-center">
+                        <p className="text-red-900 text-xs">
+                          Second Comment: {SecondComment.message}
+                        </p>
+                        <ReplyToReply
+                          parentId={SecondComment.id} // kung kanino ka nag reply
+                          commentId={firstComment.id} // original comment id
+                        />
+                        <DeleteComment commentId={SecondComment.id} />
+                      </div>
+
+                      {SecondComment.children.map((child) => (
                         <div
-                          key={r.id}
-                          className="flex gap-3 flex-col pl-10 justify-center items-start"
+                          key={child.id}
+                          className="flex ml-6 gap-3 justify-start items-center"
                         >
-                          <div className="flex gap-3  items-start">
+                          <div className="flex  gap-1 justify-start items-center">
                             <Avatar className="h-4 w-4">
-                              <AvatarImage src={r.user.imageUrl || ''} />
+                              <AvatarImage src={child.user.imageUrl || ''} />
                               <AvatarFallback>
-                                {r.user?.name?.charAt(0)}
+                                {child.user.name?.charAt(0)}
                               </AvatarFallback>
                             </Avatar>
-                            <p className="text-gray-700 text-xs">
-                              {r.user?.name}
+                            <p className="text-gray-600 text-xs">
+                              {child.user.name?.toLowerCase()}
                             </p>
                           </div>
-                          <div className="flex justify-between w-full items-center">
-                            <p className="text-gray-900">{r.message}</p>
-                            <ReplyToComment parentId={r.id} commentId={c.id} />
+                          <div className="flex  gap-1 justify-start items-center">
+                            <p className="text-blue-900 text-xs">
+                              Second Comment: {child.message}
+                            </p>
+                            <ReplyToReply
+                              parentId={child.id} // sino ka nagrereply ngayon
+                              commentId={firstComment.id} // root comment id
+                            />
                           </div>
-
-                          {r.children.map((ch) => (
-                            <div
-                              key={ch.id}
-                              className="flex gap-3 flex-col pl-10 items-center"
-                            >
-                              <div className="flex gap-3  items-start">
-                                <Avatar className="h-4 w-4">
-                                  <AvatarImage src={ch.user.imageUrl || ''} />
-                                  <AvatarFallback>
-                                    {ch.user?.name?.charAt(0)}
-                                  </AvatarFallback>
-                                </Avatar>
-                                <p className="text-gray-700 text-xs">
-                                  {ch.user?.name}
-                                </p>
-                              </div>
-                              <div className="flex justify-between w-full items-center">
-                                <p className="text-gray-900">{ch.message}</p>
-                                <ReplyToComment
-                                  parentId={ch.id}
-                                  commentId={c.id}
-                                />
-                              </div>
-                            </div>
-                          ))}
                         </div>
                       ))}
-                    </>
-                  </div>
+                    </div>
+                  ))}
                 </div>
               ))}
             </>

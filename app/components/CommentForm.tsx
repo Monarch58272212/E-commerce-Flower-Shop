@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
-import { createComment } from '../actions/comments/createComment.action';
+import { createComment } from '../actions/reply/createReply.action';
 
 interface CommentFormProps {
   userId: string;

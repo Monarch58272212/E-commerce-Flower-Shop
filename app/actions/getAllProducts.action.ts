@@ -35,13 +35,8 @@ export async function GetAllProduct() {
         include: {
           user: true,
           reply: {
-            where: {
-              parentId: null, // ⭐ only top-level replies
-            },
-            include: {
-              user: true,
-              children: { include: { user: true } },
-            },
+            where: { parentId: null },
+            include: { user: true, children: { include: { user: true } } },
           },
         },
       },

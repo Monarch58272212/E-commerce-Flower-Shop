@@ -15,12 +15,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-interface IdReply {
+interface ReplyToComment {
   commentId: string;
-  parentId?: string;
+  parentId: string;
 }
 
-export default function ReplyToComment({ commentId, parentId }: IdReply) {
+export default function ReplyToReply({ parentId, commentId }: ReplyToComment) {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
