@@ -2,17 +2,17 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import DeleteButton from './deleteButton/DeleteButton';
-import GetUserProduct from '../actions/getAllProducts.action';
+import DeleteButton from './deleteButton/DeleteProductButton';
+import getAllProducts from '../actions/products/getAllProducts.action';
 
 export default async function Dashboard() {
-  const product = await GetUserProduct();
+  const product = await getAllProducts();
 
   return (
     <div className="w-screen h-md  flex flex-col justify-center items-center gap-5 p-3">
       hello
       <div className="grid w-full md:grid-cols-2 lg:grid-cols-3 ">
-        {product.map((prod) => (
+        {product?.data.map((prod) => (
           <div
             key={prod.id}
             className="border flex flex-col gap-3  border-gray-300 rounded-lg p-4 m-2 shadow-md"

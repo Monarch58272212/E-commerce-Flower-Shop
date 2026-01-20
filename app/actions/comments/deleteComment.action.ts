@@ -3,28 +3,14 @@
 import prisma from '@/app/lib/prisma';
 import { revalidatePath } from 'next/cache';
 
-export default async function deleteComment(commentId: string) {
+export default async function deleteComment(id: string) {
   try {
-    const deletedComment = await prisma.comment.delete({
-      where: { id: commentId },
+    const commentDelete = await prisma.comment.delete({
+      where: { id },
     });
     revalidatePath('/');
-    return { success: true, data: deletedComment };
+    return { success: true, data: commentDelete };
   } catch (error) {
-    console.error('Prisma delete comment error:', error);
-    return { success: false, error: (error as Error).message };
-  }
-}
-
-export async function deleteSecondComment(parentId: string) {
-  try {
-    const deletedComment = await prisma.comment.delete({
-      where: { id: parentId },
-    });
-    revalidatePath('/');
-    return { success: true, data: deletedComment };
-  } catch (error) {
-    console.error('Prisma delete comment error:', error);
-    return { success: false, error: (error as Error).message };
+    console.error(error);
   }
 }

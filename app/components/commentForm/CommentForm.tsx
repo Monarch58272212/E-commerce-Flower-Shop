@@ -5,14 +5,13 @@ import { useState } from 'react';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
-import { createComment } from '../actions/reply/createReply.action';
+import createComment from '@/app/actions/comments/createComment.action';
 
 interface CommentFormProps {
-  userId: string;
   productId: string;
 }
 
-export default function CommentForm({ userId, productId }: CommentFormProps) {
+export default function CommentForm({ productId }: CommentFormProps) {
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -26,7 +25,7 @@ export default function CommentForm({ userId, productId }: CommentFormProps) {
 
     setLoading(true);
     try {
-      const res = await createComment({ message: comment, userId, productId });
+      const res = await createComment({ message: comment, productId });
 
       if (res?.success) {
         setComment('');

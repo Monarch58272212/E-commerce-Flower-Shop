@@ -1,7 +1,9 @@
 'use client';
 
-import { createReplyToReply } from '@/app/actions/reply/createReply.action';
+import { useState } from 'react';
+import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import toast from 'react-hot-toast';
 import {
   Dialog,
   DialogContent,
@@ -10,46 +12,47 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { Textarea } from '@/components/ui/textarea';
+import replyInReply from '@/app/actions/reply/replyToReply.action';
 
-import { useState } from 'react';
-import toast from 'react-hot-toast';
-
-interface ReplyToComment {
-  commentId: string;
-  parentId: string;
+interface CommentFormProps {
+  productId: string;
 }
 
-export default function ReplyToReply({ parentId, commentId }: ReplyToComment) {
+export default function ReplyToReply({ productId }: CommentFormProps) {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleReplySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    if (!message.trim()) return toast.error('paki butangan tanan boyyy');
 
+    if (!message.trim()) {
+      toast.error('Please write a reply!');
+      return;
+    }
+
+    setLoading(true);
     try {
-      const replyInComment = await createReplyToReply({
+      const res = await replyInReply({
+        commentId: productId,
         message,
-        parentId,
-        commentId,
       });
-      if (replyInComment.success) {
-        toast.success('create reply success boyyy');
+
+      if (res?.success) {
         setMessage('');
+        toast.success('Reply added!');
         setIsOpen(false);
       } else {
-        toast.error('yati mali ka sa reply boyy');
+        toast.error(res?.error || 'Failed to add reply');
       }
     } catch (error) {
       console.error(error);
-      toast.error('Something went wrong sa reply nimo brad');
+      toast.error('Something went wrong');
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <>
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -71,13 +74,13 @@ export default function ReplyToReply({ parentId, commentId }: ReplyToComment) {
               className="flex flex-col justify-center items-center w-full sm:mx-1.5 max-w-lg p-3 border rounded-md border-gray-500 gap-3 mt-3 bg-gray-100"
             >
               <Textarea
-                placeholder="reply this comment..."
+                placeholder="Write your reply..."
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 required
               />
               <Button type="submit" disabled={loading}>
-                {loading ? 'Adding...' : 'Reply'}
+                {loading ? 'Adding...' : 'Add Reply'}
               </Button>
             </form>
           </DialogHeader>
