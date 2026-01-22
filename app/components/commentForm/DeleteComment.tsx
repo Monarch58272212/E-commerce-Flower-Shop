@@ -2,6 +2,7 @@
 
 import deleteComment from '@/app/actions/comments/deleteComment.action';
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { MdDeleteOutline } from 'react-icons/md';
@@ -30,7 +31,7 @@ export default function DeleteComment({ id }: { id: string }) {
 
   return (
     <Button onClick={handleDelete} disabled={loading} variant={'outline'}>
-      {loading ? 'Deleting...' : <MdDeleteOutline className="text-red-900" />}
+      {loading ? <Spinner /> : <MdDeleteOutline className="text-red-900" />}
     </Button>
   );
 }

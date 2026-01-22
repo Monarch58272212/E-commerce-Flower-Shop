@@ -1,4 +1,4 @@
-import { getDbUser } from '@/app/actions/user.action';
+import { getDbUser } from '@/app/actions/users/user.action';
 import { SingleSkeleton } from '@/app/components/skeletons/Skeleton';
 
 import UpdateButton from '@/app/components/UpdateButton';
@@ -44,7 +44,7 @@ async function LoadThisPage({ params }: PageProps) {
 
   return (
     <>
-      <div className="p-5 border border-gray-600 space-y-3 shadow-md mt-3 rounded-md">
+      <div className="p-5 border max-w-lg border-gray-600 space-y-3 shadow-md mt-3 rounded-md">
         <h1 className="text-2xl font-bold">Name: {product.name}</h1>
         <p>{product.description}</p>
         <p>Owned by: {product.user.name}</p>

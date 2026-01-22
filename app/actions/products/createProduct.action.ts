@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from '@/app/lib/prisma';
-import { getDbUserPublic } from '../user.action';
+import { getDbUserPublic } from '../users/user.action';
 
 interface CreateProduct {
   name: string;

@@ -1,8 +1,9 @@
 'use server';
 
 import prisma from '@/app/lib/prisma';
-import { getDbUserPublic } from '../user.action';
+
 import { revalidatePath } from 'next/cache';
+import { getDbUserPublic } from '../users/user.action';
 
 interface CreateComment {
   message: string;
@@ -14,6 +15,11 @@ export default async function createComment({
   productId,
 }: CreateComment) {
   const userId = await getDbUserPublic();
+
+  if (!userId) {
+    return { success: false, error: 'User not authenticated' };
+  }
+
   try {
     const createProduct = await prisma.comment.create({
       data: {

@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from '@/app/lib/prisma';
-import { getDbUserPublic } from '../user.action';
+import { getDbUserPublic } from '../users/user.action';
 
 // All Products Public
 export default async function getAllProducts() {
@@ -19,6 +19,7 @@ export default async function getAllProducts() {
             },
           },
         },
+
         comment: {
           include: {
             user: true,
@@ -46,6 +47,7 @@ export default async function getAllProducts() {
 // All Products Private (User Specific)
 export async function getAllUserProducts() {
   const userId = await getDbUserPublic();
+
   try {
     const getProduct = await prisma.product.findMany({
       where: { userId: userId!.id },

@@ -2,8 +2,9 @@
 
 import cloudinary from '../lib/cloudinary';
 import prisma from '../lib/prisma';
-import { getDbUser } from './user.action';
+
 import { revalidatePath } from 'next/cache';
+import { getDbUser } from './users/user.action';
 
 interface AddProductParams {
   name: string;

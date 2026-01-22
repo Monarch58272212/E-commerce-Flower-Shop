@@ -2,7 +2,7 @@
 
 import prisma from '@/app/lib/prisma';
 import { revalidatePath } from 'next/dist/server/web/spec-extension/revalidate';
-import { getDbUserPublic } from '../user.action';
+import { getDbUserPublic } from '../users/user.action';
 
 interface ReplyInComment {
   commentId: string;

@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 import createComment from '@/app/actions/comments/createComment.action';
+import { Spinner } from '@/components/ui/spinner';
 
 interface CommentFormProps {
   productId: string;
@@ -53,7 +54,7 @@ export default function CommentForm({ productId }: CommentFormProps) {
         required
       />
       <Button type="submit" disabled={loading}>
-        {loading ? 'Adding...' : 'Add Comment'}
+        {loading ? <Spinner /> : 'Add Comment'}
       </Button>
     </form>
   );

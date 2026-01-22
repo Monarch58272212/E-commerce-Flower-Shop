@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { BsCartCheckFill } from 'react-icons/bs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
-import asyncUser from '../actions/user.action';
+import asyncUser from '../actions/users/user.action';
 
 export default async function Navigation() {
   const { getUser } = getKindeServerSession();

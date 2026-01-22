@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export function SkeletonCard() {
   return (
-    <div className="grid w-full md:grid-cols-2 lg:grid-cols-3 ">
+    <div className="grid w-full md:grid-cols-1 lg:grid-cols-1 ">
       {Array.from({ length: 6 }).map((_, index) => (
         <div
           key={index}

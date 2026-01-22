@@ -1,7 +1,7 @@
 import Image from 'next/image';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { getDbUser } from '../actions/user.action';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import getAllProducts from '../actions/products/getAllProducts.action';
@@ -11,18 +11,20 @@ import CommentForm from './commentForm/CommentForm';
 import ReplyToComment from './replyForm/ReplyToComment';
 import { MdArrowRight } from 'react-icons/md';
 import ReplyToReply from './replyForm/ReplyToReply';
+import { getDbUser } from '../actions/users/user.action';
 
 export default async function AllProduct() {
   const product = await getAllProducts();
   const dbUser = await getDbUser();
 
   return (
-    <div className="w-screen h-md  flex flex-col justify-center items-center gap-5 p-3">
-      <div className="grid w-full md:grid-cols-2 lg:grid-cols-3 ">
+    <div className="flex  flex-col justify-center items-center gap-5 ">
+      <div className="grid w-full md:grid-cols-1 lg:grid-cols-1 ">
+        {product?.data?.length === 0 && <p>No products found</p>}
         {product?.data?.map((prod) => (
           <div
             key={prod.id}
-            className="border border-gray-300 rounded-xl shadow-lg p-4 m-2 max-w-lg flex flex-col gap-4 hover:shadow-xl transition-shadow duration-300"
+            className="border border-gray-300 rounded-xl shadow-lg p-4  flex flex-col gap-4 hover:shadow-xl transition-shadow duration-300"
           >
             {/* Product Image */}
             <div className="relative w-full aspect-square rounded-lg overflow-hidden">

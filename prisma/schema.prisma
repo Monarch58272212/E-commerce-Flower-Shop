@@ -23,6 +23,8 @@ model User {
   comment   Comment[]
   products  Product[]
   replies   Reply[]
+  followers Follows[] @relation("FollowerUser")
+  following Follows[] @relation("FollowingUser")
 }
 
 model Product {
@@ -71,4 +73,17 @@ model Reply {
   children  Reply[]  @relation("ReplyToReply")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Follows {
+  id          String @id @default(cuid())
+  followerId  String
+  followingId String
+
+  follower  User @relation("FollowingUser", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("FollowerUser", fields: [followingId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([followerId, followingId])
 }
